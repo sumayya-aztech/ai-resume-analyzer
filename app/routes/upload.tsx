@@ -52,12 +52,23 @@ const upload = () => {
       jobDescription,
       feedback: '',
     };
-    await kv.set(`resume.${uuid}`, JSON.stringify(data));
+    await kv.set(`resume:${uuid}`, JSON.stringify(data));
     setStatusText('Analyzing...');
+    console.log('Uploaded PDF:', uploadedFile);
+    console.log('PDF path:', uploadedFile.path);
+    console.log('Uploaded image:', uploadedImage);
+    console.log('Image path:', uploadedImage.path);
+    const instructions = prepareInstructions({
+      jobTitle,
+      jobDescription,
+    });
+    console.log('AI instructions:', instructions);
     const feedback = await ai.feedback(
       uploadedFile.path,
-      prepareInstructions({ jobTitle, jobDescription }),
+      // prepareInstructions({ jobTitle, jobDescription }),
+      instructions,
     );
+    console.log('RAW AI FEEDBACK:', feedback);
     if (!feedback) return setStatusText('Error: Failed to analyze resume');
     const feedbackText =
       typeof feedback.message.content === 'string'

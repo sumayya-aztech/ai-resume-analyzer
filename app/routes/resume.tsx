@@ -17,7 +17,7 @@ const resume = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoading && !auth.isAuthenticated)
-      navigate(`/auth?next=/resume/{$id}`);
+      navigate(`/auth?next=/resume/${id}`);
   }, [isLoading]);
   useEffect(() => {
     const loadResume = async () => {
@@ -36,7 +36,7 @@ const resume = () => {
       setImageUrl(imageUrl);
 
       setFeedback(data.feedback);
-      console.log({ resumeUrl, imageUrl, feedback });
+      console.log({ resumeUrl, imageUrl, feedback: data.feedback });
     };
     loadResume();
   }, [id]);
